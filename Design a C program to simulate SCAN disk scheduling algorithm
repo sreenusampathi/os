@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, head, i, j, seek_time = 0, diff;
+    int queue[20], temp, max, min, queue1[20], queue2[20], temp1 = 0, temp2 = 0;
+    float avg_seek_time;
+
+    printf("Enter the number of requests: ");
+    scanf("%d", &n);
+
+    printf("Enter the requests: ");
+    for (i = 1; i <= n; i++) {
+        scanf("%d", &temp);
+        if (temp >= head) {
+            queue1[temp1] = temp;
+            temp1++;
+        } else {
+            queue2[temp2] = temp;
+            temp2++;
+        }
+    }
+
+    for (i = 0; i < temp1 - 1; i++) {
+        for (j = i + 1; j < temp1; j++) {
+            if (queue1[i] > queue1[j]) {
+                temp = queue1[i];
+                queue1[i] = queue1[j];
+                queue1[j] = temp;
+            }
+        }
+    }
+
+    for (i = 0; i < temp2 - 1; i++) {
+        for (j = i + 1; j < temp2; j++) {
+            if (queue2[i] > queue2[j]) {
+                temp = queue2[i];
+                queue2[i] = queue2[j];
+                queue2[j] = temp;
+            }
+        }
+    }
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
+
+    max = queue1[temp1 - 1];
+    min = queue2[0];
+
+    printf("\nSCAN Disk Scheduling Algorithm\n");
+    printf("-------------------------------\n");
+    printf("Head Movement\tSeek Time\n");
+    printf("-------------------------------\n");
+
+    for (i = head; i >= min; i--) {
+        printf("%d\t\t%d\n", i, seek_time);
+        seek_time++;
+    }
+
+    seek_time += abs(max - min);
+
+    for (i = min; i <= max; i++) {
+        printf("%d\t\t%d\n", i, seek_time);
+        seek_time++;
+    }
